@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tanisha & Sumit | Wedding Invitation</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastel: {
+                            pink: '#F9E8E8',
+                            peach: '#FDE4D0',
+                            mint: '#E4F0E8', /* Slightly greener mint to match mountains */
+                            gold: '#D4AF37',
+                            darkGold: '#B5952F',
+                            text: '#4A4A4A',
+                            bg: '#FDFBF7'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        cursive: ['"Great Vibes"', 'cursive'],
+                        body: ['"Lora"', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles & Desktop Container Constraint */
+        body {
+            background-color: #E5E7EB; /* Gray background for desktop */
+            color: #4A4A4A;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Mobile app width constraint */
+            background-color: #FDFBF7;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.15);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section Background - Lush Green Pahadi Theme */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Warm, lush green gradient over the exact requested mountain landscape */
+            background-image: linear-gradient(to bottom, rgba(228, 240, 232, 0.4), rgba(253, 251, 247, 1)), url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center top;
+            z-index: 0;
+        }
+
+        /* Entry Screen Overlay */
+        #entry-screen {
+            position: absolute;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+            z-index: 100;
+        }
+        .hide-entry {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Prevent scroll when entry screen is active */
+        .no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Custom Architectural Shapes */
+        .arch-window {
+            border-top-left-radius: 999px;
+            border-top-right-radius: 999px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        .caricature-frame {
+            border-top-left-radius: 999px;
+            border-top-right-radius: 999px;
+            border: 4px solid #D4AF37;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Hide scrollbar for cleaner app look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        /* Motif styling for parent cards */
+        .decorative-motif {
+            fill: #D4AF37;
+            opacity: 0.8;
+            margin: 0 auto 12px auto;
+        }
+
+        .ornate-border-card {
+            background-color: #ffffff;
+            position: relative;
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            /* Double border effect */
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 1;
+        }
+        
+        .ornate-border-card::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px dashed rgba(212, 175, 55, 0.6);
+            border-radius: 10px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Subtle Mandala Background for the section */
+        .mandala-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0C50 27.614 27.614 50 0 50C27.614 50 50 72.386 50 100C50 72.386 72.386 50 100 50C72.386 50 50 27.614 50 0Z" fill="rgba(212,175,55,0.05)"/></svg>');
+            background-size: 150px;
+        }
+
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-pastel-gold selection:text-white no-scroll">
+
+    <!-- Mobile App Container -->
+    <div class="app-container" id="app-container">
+        
+        <!-- Background Music Element -->
+        <audio id="bg-music" loop>
+            <source src="our-song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Tap to Open Overlay -->
+        <div id="entry-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-pastel-mint/95 backdrop-blur-md px-6 text-center cursor-pointer">
+            <div class="border border-pastel-gold p-8 rounded-t-full rounded-b-3xl bg-white/80 shadow-2xl animate-pulse">
+                <p class="font-serif text-pastel-darkGold tracking-widest uppercase text-xs mb-4">You are invited to the union of</p>
+                <h2 class="font-cursive text-5xl text-gray-800 mb-6">Tanisha & Sumit</h2>
+                <button class="bg-pastel-gold text-white px-8 py-3 rounded-full font-serif tracking-widest uppercase text-xs shadow-lg hover:bg-pastel-darkGold transition-colors flex items-center justify-center gap-2 mx-auto">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                    Tap to Open
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Music Button -->
+        <button id="music-toggle" class="absolute top-6 right-6 z-50 bg-white/80 backdrop-blur border border-pastel-gold p-2.5 rounded-full shadow-lg text-pastel-darkGold hidden">
+            <svg id="icon-play" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <svg id="icon-pause" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+
+        <!-- Main Content -->
+        <main id="main-content" class="relative z-10 opacity-0 transition-opacity duration-1000">
+            
+            <header class="relative min-h-screen flex flex-col items-center pt-12 pb-16 px-4 text-center">
+                <div class="hero-bg"></div>
+                
+                <!-- Highly Visible Hook Banner over Green Mountains -->
+                <div class="relative z-10 mt-6 mb-auto w-full px-2" data-aos="fade-down" data-aos-duration="1200">
+                    <div class="bg-white/70 backdrop-blur-md border border-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-2xl px-6 py-4 mx-auto border-t-4 border-t-pastel-gold max-w-[340px]">
+                        <p class="text-[15px] font-serif font-semibold text-gray-800 leading-snug">
+                            "Want to see our pahado k piche ki duniyha so join us.."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Caricature Section -->
+                <div class="relative z-10 mt-12 mb-8" data-aos="zoom-in" data-aos-duration="1500">
+                    <div class="caricature-frame w-56 h-[320px] mx-auto flex items-end justify-center overflow-hidden">
+                        <!-- Caricature Image -->
+                        <img src="images/caricature.png" alt="Tanisha & Sumit Caricature" class="w-full h-full object-contain object-bottom drop-shadow-xl" onerror="this.src='https://placehold.co/400x600/transparent/d4af37?text=Caricature\nGoes+Here'">
+                    </div>
+                </div>
+
+                <!-- Names & Subtitle -->
+                <div class="relative z-10 bg-gradient-to-t from-[#FDFBF7] via-[#FDFBF7]/90 to-transparent pt-10 pb-4 w-full -mt-20" data-aos="fade-up" data-aos-duration="1000">
+                    <h1 class="font-cursive text-6xl text-gray-800 mb-1 drop-shadow-sm">
+                        Tanisha <span class="text-4xl mx-1 text-pastel-gold">&</span> Sumit
+                    </h1>
+                    <p class="font-serif tracking-[0.25em] uppercase text-[10px] text-gray-500 font-bold">
+                        A beautiful beginning
+                    </p>
+                    
+                    <div class="mt-10 animate-bounce text-pastel-darkGold opacity-60">
+                        <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                </div>
+            </header>
+
+            <section id="events" class="py-16 px-5 relative bg-[#FDFBF7]">
+                
+                <div data-aos="fade-up" class="text-center mb-12">
+                    <h2 class="font-cursive text-4xl text-gray-800">The Festivities</h2>
+                    <div class="w-12 h-[1px] bg-pastel-gold mx-auto mt-4"></div>
+                </div>
+
+                <div class="flex flex-col gap-8">
+                    
+                    <!-- Card 1: Sangeet (Text Left, Image Right) -->
+                    <div data-aos="fade-right" class="bg-white rounded-2xl shadow-lg border border-pastel-pink p-3 flex flex-row items-stretch gap-4 h-44">
+                        <div class="flex-1 flex flex-col justify-center pl-2">
+                            <h3 class="font-serif text-2xl text-pastel-darkGold mb-1">Sangeet</h3>
+                            <p class="font-body font-semibold text-[11px] text-gray-800 uppercase tracking-wider">27th November</p>
+                            <p class="text-gray-500 text-[10px] mb-2 font-medium">6:30 PM Onwards</p>
+                            <p class="text-gray-700 text-xs font-serif leading-tight mb-3">Le Diamonds Banquets,<br>Delhi</p>
+                            <a href="https://share.google/aeByuIvyfYETnQoHo" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-white bg-pastel-gold py-1.5 px-3 rounded-full inline-block text-center w-max shadow-sm">View Map</a>
+                        </div>
+                        <!-- Sangeet Specific Working Image -->
+                        <div class="w-32 flex-shrink-0 arch-window bg-cover bg-center shadow-inner relative" style="background-image: url('images/sangeet.jpg');">
+                            <div class="absolute inset-0 bg-pastel-pink/10 rounded-[inherit]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Wedding (Image Left, Text Right) -->
+                    <div data-aos="fade-left" class="bg-white rounded-2xl shadow-lg border border-pastel-mint p-3 flex flex-row items-stretch gap-4 h-44">
+                        <!-- Wedding Specific Working Image -->
+                        <div class="w-32 flex-shrink-0 arch-window bg-cover bg-center shadow-inner relative" style="background-image: url('images/wedding.jpg');">
+                            <div class="absolute inset-0 bg-pastel-mint/10 rounded-[inherit]"></div>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-center items-end text-right pr-2">
+                            <h3 class="font-serif text-2xl text-pastel-darkGold mb-1">Wedding</h3>
+                            <p class="font-body font-semibold text-[11px] text-gray-800 uppercase tracking-wider">28th November</p>
+                            <p class="text-gray-500 text-[10px] mb-2 font-medium">8:00 AM Onwards</p>
+                            <p class="text-gray-700 text-xs font-serif leading-tight mb-3">Le Diamonds Banquets,<br>Delhi</p>
+                            <a href="https://share.google/aeByuIvyfYETnQoHo" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-white bg-pastel-gold py-1.5 px-3 rounded-full inline-block text-center w-max shadow-sm">View Map</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Reception (Text Left, Image Right) -->
+                    <div data-aos="fade-right" class="bg-white rounded-2xl shadow-lg border border-pastel-peach p-3 flex flex-row items-stretch gap-4 h-44">
+                        <div class="flex-1 flex flex-col justify-center pl-2">
+                            <h3 class="font-serif text-2xl text-pastel-darkGold mb-1">Reception</h3>
+                            <p class="font-body font-semibold text-[11px] text-gray-800 uppercase tracking-wider">1st December</p>
+                            <p class="text-gray-500 text-[10px] mb-2 font-medium">7:30 PM Onwards</p>
+                            <p class="text-gray-700 text-xs font-serif leading-tight mb-3">Blue Paradise,<br>Chandrapur</p>
+                            <a href="https://maps.app.goo.gl/TYJLetd3ht9ieNrg6" target="_blank" class="text-[10px] font-bold uppercase tracking-widest text-white bg-pastel-gold py-1.5 px-3 rounded-full inline-block text-center w-max shadow-sm">View Map</a>
+                        </div>
+                        <!-- Reception Specific Working Image -->
+                        <div class="w-32 flex-shrink-0 arch-window bg-cover bg-center shadow-inner relative" style="background-image: url('images/reception.jpg');">
+                            <div class="absolute inset-0 bg-pastel-peach/10 rounded-[inherit]"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="family" class="py-16 px-6 relative bg-[#FDFBF7] mandala-bg border-t border-pastel-pink text-center">
+                
+                <h2 data-aos="fade-up" class="font-cursive text-4xl text-gray-800 mb-12">With Joyful Hearts</h2>
+                
+                <div class="flex flex-col gap-10 mb-12">
+                    
+                    <!-- Groom's Side Parents with Ornate Border -->
+                    <div data-aos="fade-up" class="ornate-border-card">
+                        
+                        <!-- Top Corner Ornaments (SVG) -->
+                        <svg class="absolute top-2 left-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C9.5 5 7 8 7 12H2c0-5 5-9 10-10z"/></svg>
+                        <svg class="absolute top-2 right-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c2.5 3 5 6 5 10h5c0-5-5-9-10-10z"/></svg>
+
+                        <!-- Central Motif -->
+                        <svg class="decorative-motif w-10 h-10 mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C9.5 5 7 8 7 12c0 4 3 7 5 9 2-2 5-5 5-9 0-4-2.5-7-5-10zm0 17c-1.5-1.5-3-3.5-3-7 0-3 2-5.5 3-7.5 1 2 3 4.5 3 7.5 0 3.5-1.5 5.5-3 7z"/>
+                        </svg>
+                        
+                        <div class="inline-block bg-[#FDFBF7] text-pastel-darkGold text-[10px] uppercase tracking-[0.2em] px-4 py-1 font-bold border-y border-pastel-gold/30 mb-4">
+                            Groom's Parents
+                        </div>
+                        
+                        <p class="text-[17px] font-serif text-gray-800 mt-2 font-medium tracking-wide">Mr. Swamidas Chalekar</p>
+                        <p class="text-sm font-serif italic text-pastel-darkGold my-1.5">&</p>
+                        <p class="text-[17px] font-serif text-gray-800 font-medium tracking-wide">Mrs. Sushama Chalekar</p>
+                        
+                        <!-- Bottom Corner Ornaments (SVG) -->
+                        <svg class="absolute bottom-2 left-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c-2.5-3-5-6-5-10H2c0 5 5 9 10 10z"/></svg>
+                        <svg class="absolute bottom-2 right-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c2.5-3 5-6 5-10h5c0 5-5 9-10 10z"/></svg>
+                    </div>
+                    
+                    <!-- Bride's Side Parents with Ornate Border -->
+                    <div data-aos="fade-up" class="ornate-border-card">
+                        
+                        <!-- Top Corner Ornaments (SVG) -->
+                        <svg class="absolute top-2 left-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C9.5 5 7 8 7 12H2c0-5 5-9 10-10z"/></svg>
+                        <svg class="absolute top-2 right-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c2.5 3 5 6 5 10h5c0-5-5-9-10-10z"/></svg>
+
+                        <!-- Central Motif -->
+                        <svg class="decorative-motif w-10 h-10 mb-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C9.5 5 7 8 7 12c0 4 3 7 5 9 2-2 5-5 5-9 0-4-2.5-7-5-10zm0 17c-1.5-1.5-3-3.5-3-7 0-3 2-5.5 3-7.5 1 2 3 4.5 3 7.5 0 3.5-1.5 5.5-3 7z"/>
+                        </svg>
+
+                        <div class="inline-block bg-[#FDFBF7] text-pastel-darkGold text-[10px] uppercase tracking-[0.2em] px-4 py-1 font-bold border-y border-pastel-gold/30 mb-4">
+                            Bride's Parents
+                        </div>
+                        
+                        <p class="text-[17px] font-serif text-gray-800 mt-2 font-medium tracking-wide">Mr. Devender Bisht</p>
+                        <p class="text-sm font-serif italic text-pastel-darkGold my-1.5">&</p>
+                        <p class="text-[17px] font-serif text-gray-800 font-medium tracking-wide">Mrs. Neeru Bisht</p>
+                        
+                        <!-- Bottom Corner Ornaments (SVG) -->
+                        <svg class="absolute bottom-2 left-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c-2.5-3-5-6-5-10H2c0 5 5 9 10 10z"/></svg>
+                        <svg class="absolute bottom-2 right-2 w-6 h-6 text-pastel-gold/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c2.5-3 5-6 5-10h5c0 5-5 9-10 10z"/></svg>
+                    </div>
+                </div>
+
+                <!-- Unified Siblings & Little Ones Section -->
+                <div data-aos="fade-up" class="mt-8 bg-white/70 backdrop-blur-sm py-8 px-6 rounded-2xl border border-pastel-gold/20 shadow-sm relative overflow-hidden">
+                    <!-- Subtle background decoration -->
+                     <svg class="absolute -right-6 -bottom-6 w-24 h-24 text-pastel-gold/10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C9.5 5 7 8 7 12c0 4 3 7 5 9 2-2 5-5 5-9 0-4-2.5-7-5-10zm0 17c-1.5-1.5-3-3.5-3-7 0-3 2-5.5 3-7.5 1 2 3 4.5 3 7.5 0 3.5-1.5 5.5-3 7z"/></svg>
+
+                    <p class="text-[10px] tracking-[0.15em] uppercase text-pastel-darkGold mb-4 font-serif font-bold relative z-10">Together with our siblings & little ones</p>
+                    <p class="text-[16px] font-serif text-gray-800 leading-relaxed relative z-10">
+                        Samiksha, Manisha, Arpit, <br>
+                        <span class="text-sm italic text-gray-500 mt-1 block">and our beloved niece,</span> 
+                        <span class="font-medium">Shivi.</span>
+                    </p>
+                </div>
+                
+            </section>
+
+            <!-- Footer -->
+            <footer class="py-10 text-center bg-pastel-pink/40 border-t border-pastel-pink">
+                <p data-aos="fade-up" class="font-serif text-[10px] tracking-widest uppercase text-gray-600 font-bold">We look forward to celebrating with you!</p>
+                <p data-aos="zoom-in" data-aos-delay="100" class="font-cursive text-4xl mt-4 text-pastel-darkGold drop-shadow-sm">T & S</p>
+                <div class="h-20"></div> <!-- Padding for mobile scrolling -->
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- AOS (Animate On Scroll) JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const entryScreen = document.getElementById('entry-screen');
+            const mainContent = document.getElementById('main-content');
+            const bgMusic = document.getElementById('bg-music');
+            const musicToggleBtn = document.getElementById('music-toggle');
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
+            const body = document.body;
+
+            // Handle "Tap to Open"
+            entryScreen.addEventListener('click', () => {
+                // 1. Hide entry screen
+                entryScreen.classList.add('hide-entry');
+                body.classList.remove('no-scroll');
+                mainContent.style.opacity = '1';
+                
+                // 2. Play music
+                try {
+                    bgMusic.volume = 0.6;
+                    bgMusic.play();
+                    musicToggleBtn.classList.remove('hidden');
+                } catch (error) {
+                    console.log("Audio playback prevented by browser.");
+                    musicToggleBtn.classList.remove('hidden');
+                    iconPause.classList.add('hidden');
+                    iconPlay.classList.remove('hidden');
+                }
+
+                // 3. Initialize Animations
+                AOS.init({
+                    once: false,
+                    mirror: true,
+                    offset: 30,
+                    duration: 800,
+                    easing: 'ease-out-cubic'
+                });
+            });
+
+            // Handle Music Toggle
+            musicToggleBtn.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    bgMusic.play();
+                    iconPlay.classList.add('hidden');
+                    iconPause.classList.remove('hidden');
+                } else {
+                    bgMusic.pause();
+                    iconPause.classList.add('hidden');
+                    iconPlay.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
